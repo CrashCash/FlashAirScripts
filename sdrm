@@ -24,7 +24,7 @@ def_address=config['DEFAULT'].get('address', None)
 def_directory=config['DEFAULT'].get('directory', '/')
 
 parser=argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-parser.add_argument('files', nargs='*', help='files/directories to delete', default=['*'])
+parser.add_argument('files', nargs='+', help='files/directories to delete', default=None)
 parser.add_argument('-a', '--address', help='card network address', default=def_address)
 parser.add_argument('-d', '--directory', help='directory', default=def_directory)
 args=parser.parse_args()
