@@ -27,7 +27,7 @@ I wrote 3 scripts:
 * sdls  - list the contents of the card
 
 ```
-  # sdls
+  % sdls
   Low_Pressure_Shaft_Aft_Rev_A.gcode           10,887,796
   Low_Pressure_Shaft_Connector_Rev_A.gcode        405,270
   Low_Pressure_Shaft_Front_Rev_A.gcode          9,462,366
@@ -78,10 +78,12 @@ Copy my version of the file to this directory, and modify these values:
 * **APPSSID** and **APPNETWORKKEY** are the name and password of your wireless
   network.  The card only does 2.4GHz, so it won't show up on a 5GHz system.
   It also doesn't tolerate blanks or non-ASCII characters in the network name
-  (even though they're legal)
+  - even though they're legal. Note that APPNETWORKKEY becomes a row of
+  asterisks after the first time the card connects successfully to the
+  network.
 
-* Copy **CID** and **VERSION** from your old CONFIG file
+* Copy the values of **CID** and **VERSION** from your old CONFIG file
 
 Unmount the card and remove it from the reader. When you put it back in, it
-should appear on the network, and you should see it from your router. Try sdls
-to see if it communicates without errors.
+should appear on the network, and you should see it from your router. Try
+"sdls" to see if it communicates without errors.
