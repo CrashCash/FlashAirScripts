@@ -57,11 +57,11 @@ I wrote 3 scripts:
 
 All three scripts take optional arguments:
 
--a ADDRESS, --address ADDRESS which is the address of the card on your
+`-a ADDRESS, --address ADDRESS` which is the address of the card on your
 network. You can either use the raw IP address, or you can assign a hostname
 through your router.
 
--d DIRECTORY, --directory DIRECTORY which is the working directory
+`-d DIRECTORY, --directory DIRECTORY` which is the working directory
 
 Note that these are saved to a configuration file (~/.flashair) so you don't
 have to retype them constantly. This means you only need to specify the card
