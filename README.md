@@ -29,6 +29,7 @@ https://www.flashair-developers.com/en/documents/api/
 
 ```
   % sdls
+  Directory: /
   Low_Pressure_Shaft_Aft_Rev_A.gcode           10,887,796
   Low_Pressure_Shaft_Connector_Rev_A.gcode        405,270
   Low_Pressure_Shaft_Front_Rev_A.gcode          9,462,366
@@ -36,8 +37,8 @@ https://www.flashair-developers.com/en/documents/api/
   Nozzle_No_Supports.gcode                     31,395,785
   Stand.gcode                                  11,298,604
   ---------------------------------------- --------------
-  Total In Use:                                73,396,419
-  Remaining Space:                         31,920,488,448
+  Dir Total:                                   73,396,419
+  Unused:                                  31,920,488,448
   Free:                                            99.77%
 ```
 
@@ -46,7 +47,8 @@ https://www.flashair-developers.com/en/documents/api/
   `sdput Nozzle_Cone.gcode LPT_Spool.gcode`
 
   Note that to create a directory, you just specify it, and if it doesn't
-  exist, it will be created. You can only do one level at a time.
+  exist, it will be created. Also note that you can only do one level at a
+  time.
 
   `sdput -d gcode LPT_Spool.gcode` creates the "gcode" directory and puts the
   "LPT_Spool.gcode" file in it.
@@ -70,6 +72,8 @@ network. You can either use the raw IP address, or you can usually assign a
 hostname through your router.
 
 `-d DIRECTORY, --directory DIRECTORY` which is the working directory
+
+`-h, --help` display help
 
 Note that these are saved to a configuration file (~/.flashair) so you don't
 have to retype them constantly. This means you only need to specify the card
