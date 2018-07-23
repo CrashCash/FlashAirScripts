@@ -51,9 +51,17 @@ I wrote 3 scripts:
 
   `sdrm "*.gcode"` deletes all files with a "gcode" extension - note that you
   have to quote the glob to prevent it from being expanded locally by the
-  shell
+  shell. Also note a directory must be empty before it can be deleted.
 
   `sdput Nozzle_Cone.gcode LPT_Spool.gcode` deletes the two given files
+
+All three scripts take optional arguments:
+
+> -a ADDRESS, --address ADDRESS which is the address of the card on your
+network. You can either use the raw IP address, or you can assign a hostname
+through your router.
+
+> -d DIRECTORY, --directory DIRECTORY which is the working directory
 
 ### Setting up the scripts
 
