@@ -23,7 +23,7 @@ Linux webDAV clients are poor as well, but it's very good at HTTP
 commands. These are documented at
 https://www.flashair-developers.com/en/documents/api/
 
-I wrote 3 scripts:
+### I wrote 3 scripts:
 
 * **sdls**  - list the contents of the card
 
@@ -55,7 +55,7 @@ I wrote 3 scripts:
 
   `sdput Nozzle_Cone.gcode LPT_Spool.gcode` deletes the two given files
 
-All three scripts take optional arguments:
+### All three scripts take optional arguments:
 
 `-a ADDRESS, --address ADDRESS` which is the address of the card on your
 network. You can either use the raw IP address, or you can assign a hostname
