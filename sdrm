@@ -10,12 +10,9 @@ import requests
 import configparser
 
 def match(s):
-    args=sys.argv[1:]
-    if not args:
+    if s in args.files:
         return True
-    if s in args:
-        return True
-    for arg in args:
+    for arg in args.files:
         if fnmatch.fnmatch(s, arg):
             return True
     return False
@@ -27,7 +24,7 @@ def_address=config['DEFAULT'].get('address', None)
 def_directory=config['DEFAULT'].get('directory', '/')
 
 parser=argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-parser.add_argument('files', nargs='+')
+parser.add_argument('files', nargs='?', help='files/directories to delete', default='*')
 parser.add_argument('-a', '--address', help='card network address', default=def_address)
 parser.add_argument('-d', '--directory', help='directory', default=def_directory)
 args=parser.parse_args()
