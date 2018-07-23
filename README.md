@@ -77,10 +77,9 @@ Copy my version of the file to this directory, and modify these values:
 
 * **APPSSID** and **APPNETWORKKEY** are the name and password of your wireless
   network.  The card only does 2.4GHz, so it won't show up on a 5GHz system.
-  It also doesn't tolerate blanks or non-ASCII characters in the network name
-  - even though they're legal. Note that APPNETWORKKEY becomes a row of
-  asterisks after the first time the card connects successfully to the
-  network.
+  It also doesn't tolerate blanks or non-ASCII characters in the network
+  name. Note that APPNETWORKKEY becomes a row of asterisks after the first
+  time the card connects successfully to the network.
 
 * Copy the values of **CID** and **VERSION** from your old CONFIG file
 
