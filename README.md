@@ -27,9 +27,15 @@ I wrote 3 scripts:
 * sdls  - list the contents of the card
 * sdput - copy files from local storage to the card
 
-  sdput Nozzle_Cone.gcode LPT_Spool.gcode
+  `sdput Nozzle_Cone.gcode LPT_Spool.gcode`
 
 * sdrm - delete files from the card
+
+  `sdrm` deletes all files
+
+  `sdrm "*.gcode"` deletes all files with a "gcode" extension
+
+  `sdput Nozzle_Cone.gcode LPT_Spool.gcode` deletes the two given files
 
 ### Setting up the scripts
 
