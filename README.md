@@ -86,5 +86,6 @@ Copy my version of the file to this directory, and modify these values:
 * Copy the values of **CID** and **VERSION** from your old "config" file
 
 Unmount the card and remove it from the reader. When you put it back in, it
-should appear on the network, and you should see it from your router. Try
-"sdls" to see if it communicates without errors.
+will use the new configuration, so it should appear on the network. You should
+see it on your router's list of attached devices. Try "sdls" to see if it
+communicates without errors.
