@@ -71,7 +71,7 @@ address, or you can assign a hostname through your router.
 Mount your card in your PC. The **config** configuration file is in the
 **sd_wlan** directory.
 
-Rename the file to something like config.orig. Don't just delete it or
+Rename the file to something like "config.orig". Don't just delete it or
 overwrite it, as you'll need to copy the values of several variables from it.
 
 Copy my version of the file to this directory, and modify these values:
@@ -82,7 +82,7 @@ Copy my version of the file to this directory, and modify these values:
   name. Note that APPNETWORKKEY becomes a row of asterisks after the first
   time the card connects successfully to the network.
 
-* Copy the values of **CID** and **VERSION** from your old CONFIG file
+* Copy the values of **CID** and **VERSION** from your old "config" file
 
 Unmount the card and remove it from the reader. When you put it back in, it
 should appear on the network, and you should see it from your router. Try
