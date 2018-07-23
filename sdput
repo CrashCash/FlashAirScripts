@@ -1,0 +1,31 @@
+#! /usr/bin/python3
+# put files on Toshiba FlashAir SD card via wi-fi
+# see https://www.flashair-developers.com/en/documents/api/
+
+import os
+import sys
+import requests
+
+ip='flashair'
+
+files=sys.argv[1:]
+if not files:
+    print('no files to upload')
+    sys.exit(1)
+
+# keep the host from writing during upload
+requests.get('http://'+ip+'/upload.cgi?WRITEPROTECT=ON')
+
+# set upload directory
+requests.get('http://'+ip+'/upload.cgi?UPDIR=/')
+
+for file in files:
+    print(file, end=' ', flush=True)
+    r=requests.post('http://'+ip+'/upload.cgi', files={'file': (file, open(file, 'rb'), 'application/octet-stream')})
+    if '<h1>Success</h1>' in r.text:
+        print('uploaded')
+    else:
+        print('failed')
+
+# re-enable disk
+requests.get('http://'+ip+'/upload.cgi?WRITEPROTECT=OFF')

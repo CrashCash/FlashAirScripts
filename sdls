@@ -1,0 +1,61 @@
+#! /usr/bin/python3
+# list files on Toshiba FlashAir SD card via wi-fi
+# see https://www.flashair-developers.com/en/documents/api/
+
+import sys
+import requests
+
+ip='flashair'
+
+r=requests.get('http://'+ip+'/command.cgi?op=100&DIR=/')
+if not r:
+    print('communications error', r.status_code)
+    sys.exit(1)
+
+sum=0
+output=[]
+for line in r.text.split():
+    # this code assumes no commas in directory name or file name
+    fields=line.split(',')
+    if len(fields) != 6:
+        continue
+    dir, file, size, attrib, date, time=fields
+    attrib=int(attrib)
+    if file == 'DCIM':
+        continue
+    if attrib == 32:
+        # comma-formatted number
+        size=int(size)
+        output.append((file, "{:,}".format(size)))
+        sum+=size
+    elif attrib == 16:
+        output.append((file, '<DIR>'))
+    else:
+        output.append(('unknown attribute for', file))
+
+if len(output) == 0:
+    print("card is empty")
+    raise SystemExit
+
+# sort alphabetically
+output.sort(key=lambda x: x[0])
+
+# grab remaining space
+r=requests.get('http://'+ip+'/command.cgi?op=140')
+t=r.text.split('/')
+empty=int(t[0])
+total, sector=map(int, t[1].split(','))
+space=empty*sector
+pct=(empty/total)*100.0
+
+# add totals
+output.append(('Total In Use:', "{:,}".format(sum)))
+output.append(('Remaining Space:', '{:,}'.format(space)))
+output.append(('Free:', '{:.2f}%'.format(pct)))
+
+# print in neat columns
+width1=max(len(x[0]) for x in output)
+width2=max(len(x[1]) for x in output)
+output.insert(-3, ('-'*width1, '-'*width2))
+for data in output:
+    print("{0:{1}} {2:>{3}}".format(data[0], width1, data[1], width2))
