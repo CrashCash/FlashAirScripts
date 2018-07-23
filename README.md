@@ -57,11 +57,15 @@ I wrote 3 scripts:
 
 All three scripts take optional arguments:
 
-> -a ADDRESS, --address ADDRESS which is the address of the card on your
+-a ADDRESS, --address ADDRESS which is the address of the card on your
 network. You can either use the raw IP address, or you can assign a hostname
 through your router.
 
-> -d DIRECTORY, --directory DIRECTORY which is the working directory
+-d DIRECTORY, --directory DIRECTORY which is the working directory
+
+Note that these are saved to a configuration file (~/.flashair) so you don't
+have to retype them constantly. This means you only need to specify the card
+address once, and it's remembered.
 
 ### Setting up the scripts
 
@@ -70,10 +74,6 @@ Copy this scripts to /usr/local/bin and mark them executable (`chmod a+x sdls sd
 Make sure Python 3.x and the requests package are installed through pip,
 pipenv, apt-get, rpm or whatever. See
 http://docs.python-requests.org/en/master/
-
-You'll need to to change the **ip** variable at the top of each script to
-reflect the address of the card on your network. You can either use the raw IP
-address, or you can assign a hostname through your router.
 
 ### Setting up the card
 
