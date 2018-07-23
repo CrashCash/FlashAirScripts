@@ -45,10 +45,13 @@ https://www.flashair-developers.com/en/documents/api/
 
   `sdput Nozzle_Cone.gcode LPT_Spool.gcode`
 
-  Note that to create a directory, you just specify it
+  Note that to create a directory, you just specify it, and if it doesn't
+  exist, it will be created. You can only do one level at a time.
 
   `sdput -d gcode LPT_Spool.gcode` creates the "gcode" directory and puts the
   "LPT_Spool.gcode" file in it.
+
+  `sdput -d dir1/dir2 diary.txt` will fail if "dir1" doesn't already exist.
 
 * **sdrm** - delete files/directories from the card
 
