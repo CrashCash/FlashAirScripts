@@ -46,9 +46,8 @@ https://www.flashair-developers.com/en/documents/api/
 
   `sdput Nozzle_Cone.gcode LPT_Spool.gcode`
 
-  Note that to create a directory, you just specify it, and if it doesn't
-  exist, it will be created. Also note that you can only do one level at a
-  time.
+  To create a directory, you just specify it, and if it doesn't exist, it will
+  be created. Also note that you can only do one level at a time.
 
   `sdput -d gcode LPT_Spool.gcode` creates the "gcode" directory and puts the
   "LPT_Spool.gcode" file in it.
@@ -57,7 +56,7 @@ https://www.flashair-developers.com/en/documents/api/
 
 * **sdrm** - delete files/directories from the card
 
-  Note a directory must be empty before it can be deleted.
+  A directory must be empty before it can be deleted.
 
   `sdrm` deletes all files/directories in the current directory.
 
@@ -77,10 +76,10 @@ hostname through your router.
 
 `-h, --help` displays help.
 
-Note that these are saved to a configuration file (~/.flashair) so you don't
-have to retype them constantly. This means you only need to specify the card
-address once, and it's remembered. This also means the current working
-directory "sticks" across invocations as well.
+These are saved to a configuration file (~/.flashair) so you don't have to
+retype them constantly. This means you only need to specify the card address
+once, and it's remembered. This also means the current working directory
+"sticks" across invocations as well.
 
 ### Setting up the scripts
 
