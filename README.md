@@ -68,10 +68,11 @@ address, or you can assign a hostname through your router.
 
 ### Setting up the card
 
-Mount your card in your PC. The **CONFIG** configuration file is in the
-**SD_WLAN** directory, which are hidden in Windows.
+Mount your card in your PC. The **config** configuration file is in the
+**sd_wlan** directory, which are hidden in Windows.
 
-Rename the file to something like CONFIG.BAK.
+Rename the file to something like config.orig. Don't just delete it or
+overwrite it, as you'll need to copy the values of several variables from it.
 
 Copy my version of the file to this directory, and modify these values:
 
