@@ -45,7 +45,12 @@ https://www.flashair-developers.com/en/documents/api/
 
   `sdput Nozzle_Cone.gcode LPT_Spool.gcode`
 
-* **sdrm** - delete files from the card
+  Note that to create a directory, you just specify it
+
+  `sdput -d gcode LPT_Spool.gcode` creates the "gcode" directory and puts the
+  "LPT_Spool.gcode" file in it.
+
+* **sdrm** - delete files/directories from the card
 
   `sdrm` deletes all files
 
@@ -58,14 +63,15 @@ https://www.flashair-developers.com/en/documents/api/
 ### All three scripts take optional arguments:
 
 `-a ADDRESS, --address ADDRESS` which is the address of the card on your
-network. You can either use the raw IP address, or you can assign a hostname
-through your router.
+network. You can either use the raw IP address, or you can usually assign a
+hostname through your router.
 
 `-d DIRECTORY, --directory DIRECTORY` which is the working directory
 
 Note that these are saved to a configuration file (~/.flashair) so you don't
 have to retype them constantly. This means you only need to specify the card
-address once, and it's remembered.
+address once, and it's remembered. This also means the current working
+directory "sticks" across invocations as well.
 
 ### Setting up the scripts
 
