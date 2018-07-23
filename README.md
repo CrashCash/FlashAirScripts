@@ -2,7 +2,8 @@
 Python scripts to access a wi-fi enabled Toshiba FlashAir SD card
 
 Toshiba FlashAir cards are SD cards that are accessible over wi-fi.
-(This SD card has a wireless access point plus a CPU running a webserver on
+
+(This SD card has a wireless access point plus a CPU running a web server on
 Linux. Isn't that amazing?)
 
 This has been tested on Debian Linux with a W-04 version card
@@ -14,7 +15,7 @@ pulling it out.
 
 I read
 https://www.prusaprinters.org/easy-wireless-printing-with-flashair-sd-cards/
-and it's an excellent startning point, but I'm a Linux guy, so I had to write
+and it's an excellent starting point, but I'm a Linux guy, so I had to write
 some scripts to talk to it.
 
 It turns out that the webDAV support on this card is rather unreliable and
@@ -63,7 +64,7 @@ pipenv, apt-get, rpm or whatever. See
 http://docs.python-requests.org/en/master/
 
 You'll need to to change the **ip** variable at the top of each script to
-reflect the addess of the card on your network. You can either use the raw IP
+reflect the address of the card on your network. You can either use the raw IP
 address, or you can assign a hostname through your router.
 
 ### Setting up the card
