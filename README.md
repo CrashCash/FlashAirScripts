@@ -24,7 +24,7 @@ https://www.flashair-developers.com/en/documents/api/
 
 I wrote 3 scripts:
 
-* sdls  - list the contents of the card
+* **sdls**  - list the contents of the card
 
 ```
   % sdls
@@ -40,11 +40,11 @@ I wrote 3 scripts:
   Free:                                            99.77%
 ```
 
-* sdput - copy files from local storage to the card
+* **sdput** - copy files from local storage to the card
 
   `sdput Nozzle_Cone.gcode LPT_Spool.gcode`
 
-* sdrm - delete files from the card
+* **sdrm** - delete files from the card
 
   `sdrm` deletes all files
 
@@ -69,7 +69,7 @@ address, or you can assign a hostname through your router.
 ### Setting up the card
 
 Mount your card in your PC. The **config** configuration file is in the
-**sd_wlan** directory, which are hidden in Windows.
+**sd_wlan** directory.
 
 Rename the file to something like config.orig. Don't just delete it or
 overwrite it, as you'll need to copy the values of several variables from it.
