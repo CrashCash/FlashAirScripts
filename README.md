@@ -33,7 +33,9 @@ I wrote 3 scripts:
 
   `sdrm` deletes all files
 
-  `sdrm "*.gcode"` deletes all files with a "gcode" extension
+  `sdrm "*.gcode"` deletes all files with a "gcode" extension - note that you
+  have to quote the glob to prevent it from being expanded locally by the
+  shell
 
   `sdput Nozzle_Cone.gcode LPT_Spool.gcode` deletes the two given files
 
