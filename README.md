@@ -57,23 +57,24 @@ https://www.flashair-developers.com/en/documents/api/
 
 * **sdrm** - delete files/directories from the card
 
-  `sdrm` deletes all files
+  `sdrm` deletes all files/directories in the current directory.
 
-  `sdrm "*.gcode"` deletes all files with a "gcode" extension - note that you
-  have to quote the glob to prevent it from being expanded locally by the
-  shell. Also note a directory must be empty before it can be deleted.
+  `sdrm "*.gcode"` deletes all files with a "gcode" extension in the current
+  directory - note that you have to quote the glob to prevent it from being
+  expanded locally by the shell. Also note a directory must be empty before it
+  can be deleted.
 
-  `sdput Nozzle_Cone.gcode LPT_Spool.gcode` deletes the two given files
+  `sdput Nozzle_Cone.gcode LPT_Spool.gcode` deletes the two given files.
 
 ### All three scripts take optional arguments:
 
-`-a ADDRESS, --address ADDRESS` which is the address of the card on your
+`-a ADDRESS, --address ADDRESS` specifies the address of the card on your
 network. You can either use the raw IP address, or you can usually assign a
 hostname through your router.
 
-`-d DIRECTORY, --directory DIRECTORY` which is the working directory
+`-d DIRECTORY, --directory DIRECTORY` specifies the working directory.
 
-`-h, --help` display help
+`-h, --help` displays help.
 
 Note that these are saved to a configuration file (~/.flashair) so you don't
 have to retype them constantly. This means you only need to specify the card
