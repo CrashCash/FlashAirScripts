@@ -48,7 +48,7 @@ requests.get('http://'+address+'/upload.cgi?UPDIR=/'+dir)
 for file in args.files:
     print(file, end=' ', flush=True)
     r=requests.post('http://'+address+'/upload.cgi',
-                        files={'file': (file, open(file, 'rb'), 'application/octet-stream')})
+                        files={'file': (os.path.basename(file), open(file, 'rb'), 'application/octet-stream')})
     if '<h1>Success</h1>' in r.text:
         print('uploaded')
     else:

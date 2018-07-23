@@ -57,12 +57,13 @@ https://www.flashair-developers.com/en/documents/api/
 
 * **sdrm** - delete files/directories from the card
 
+  Note a directory must be empty before it can be deleted.
+
   `sdrm` deletes all files/directories in the current directory.
 
   `sdrm "*.gcode"` deletes all files with a "gcode" extension in the current
   directory - note that you have to quote the glob to prevent it from being
-  expanded locally by the shell. Also note a directory must be empty before it
-  can be deleted.
+  expanded locally by the shell.
 
   `sdput Nozzle_Cone.gcode LPT_Spool.gcode` deletes the two given files.
 
