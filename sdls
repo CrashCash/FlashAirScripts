@@ -25,22 +25,24 @@ config=configparser.ConfigParser()
 config.read(config_file)
 def_address=config['DEFAULT'].get('address', None)
 def_directory=config['DEFAULT'].get('directory', '/')
+def_sort=config['DEFAULT'].get('sort', 'a')
 
 parser=argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 parser.add_argument('-a', '--address', help='card network address', default=def_address)
-parser.add_argument('-d', '--directory', help='directory', default=def_directory)
+parser.add_argument('-d', '--directory', help='directory to list', default=def_directory)
+parser.add_argument('-s', '--sort', help='sort output lines (alpha, size, none)', choices=['a', 's', 'n'], default=def_sort)
 args=parser.parse_args()
-address=args.address
 dir=args.directory
 
-if address == None:
+if args.address == None:
     print('you must supply a network address for the card')
     exit(1)
 
 # if values have changed, write them back as defaults
-if address != def_address or dir != def_directory:
-    config['DEFAULT']['address']=address
+if args.address != def_address or dir != def_directory or args.sort != def_sort:
+    config['DEFAULT']['address']=args.address
     config['DEFAULT']['directory']=dir
+    config['DEFAULT']['sort']=args.sort
     with open(config_file, 'w') as f:
         config.write(f)
 
@@ -50,7 +52,7 @@ if dir and dir[0] == '/':
 if dir and dir[-1] == '/':
     dir=dir[:-1]
 
-r=requests.get('http://'+address+'/command.cgi?op=100&DIR=/'+dir)
+r=requests.get('http://'+args.address+'/command.cgi?op=100&DIR=/'+dir)
 if not r:
     if r.status_code == 404:
         print('no such directory:', dir)
@@ -88,11 +90,14 @@ if len(output) == 0:
     print('directory "'+dir+'" is empty')
     raise SystemExit
 
-# sort alphabetically
-output.sort(key=lambda x: x[0])
+# sort
+if args.sort == 'a':
+    output.sort(key=lambda x: x[0])
+if args.sort == 's':
+    output.sort(key=lambda x: x[1])
 
 # grab remaining space
-r=requests.get('http://'+address+'/command.cgi?op=140')
+r=requests.get('http://'+args.address+'/command.cgi?op=140')
 t=r.text.split('/')
 empty=int(t[0])
 total, sector=map(int, t[1].split(','))
