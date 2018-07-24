@@ -8,6 +8,18 @@ import argparse
 import requests
 import configparser
 
+
+def fmt(size):
+    kb=size/1024
+    mb=size/1048576
+    gb=size/1073741824
+    s='{:,.3f} GB'.format(gb)
+    if gb < 1:
+        s='{:,.3f} MB'.format(mb)
+    if mb < 1:
+        s='{:,.3f} KB'.format(kb)
+    return s
+
 config_file=os.path.expanduser('~/.flashair')
 config=configparser.ConfigParser()
 config.read(config_file)
@@ -55,15 +67,19 @@ for line in r.text.split()[1:]:
         file=first[1:]
     else:
         file=first[len(dir)+2:]
+
     attrib=int(attrib)
     if attrib & 16:
         # this is a directory
-        output.append((file, '<DIR>'))
+        output.append((file, '<DIR>', ''))
     else:
         # this is a file
         # comma-formatted number
         size=int(size)
-        output.append((file, '{:,}'.format(size)))
+        kb=size/1024
+        mb=size/1048576
+        gb=size/1073741824
+        output.append((file, '{:,}'.format(size), fmt(size)))
         sum+=size
 
 if not dir:
@@ -80,18 +96,32 @@ r=requests.get('http://'+address+'/command.cgi?op=140')
 t=r.text.split('/')
 empty=int(t[0])
 total, sector=map(int, t[1].split(','))
-space=empty*sector
-pct=(empty/total)*100.0
+empty*=sector
+total*=sector
+used=total-empty
+space=empty
+pct_used=(used/total)*100.0
+pct_empty=(empty/total)*100.0
 
 # add totals
-output.append(('Dir Total:', '{:,}'.format(sum)))
-output.append(('Unused:', '{:,}'.format(space)))
-output.append(('Free:', '{:.2f}%'.format(pct)))
+output.append(('Dir Total:', '{:,}'.format(sum), fmt(sum)))
+output.append(('Used:', '{:,}'.format(used), fmt(used), '{:.2f}%'.format(pct_used)))
+output.append(('Unused:', '{:,}'.format(space), fmt(space), '{:.2f}%'.format(pct_empty)))
 
 # print in neat columns
 width1=max(len(x[0]) for x in output)
 width2=max(len(x[1]) for x in output)
-output.insert(-3, ('-'*width1, '-'*width2))
+width3=max(len(x[2]) for x in output)
+width4=max(len(x[3]) for x in output if len(x) > 3)
+output.insert(-4, ('-'*width1, '-'*width2, '-'*width3))
 print('Directory:', dir)
 for data in output:
-    print('{0:{1}} {2:>{3}}'.format(data[0], width1, data[1], width2))
+    if len(data) == 3:
+        print('{0:{1}} {2:>{3}} {4:>{5}}'.format(data[0], width1,
+                                                 data[1], width2,
+                                                 data[2], width3))
+    else:
+        print('{0:{1}} {2:>{3}} {4:>{5}} {6:>{7}}'.format(data[0], width1,
+                                                          data[1], width2,
+                                                          data[2], width3,
+                                                          data[3], width4))
