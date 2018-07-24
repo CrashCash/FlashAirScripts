@@ -113,7 +113,7 @@ width1=max(len(x[0]) for x in output)
 width2=max(len(x[1]) for x in output)
 width3=max(len(x[2]) for x in output)
 width4=max(len(x[3]) for x in output if len(x) > 3)
-output.insert(-4, ('-'*width1, '-'*width2, '-'*width3))
+output.insert(-3, ('-'*width1, '-'*width2, '-'*width3))
 print('Directory:', dir)
 for data in output:
     if len(data) == 3:
