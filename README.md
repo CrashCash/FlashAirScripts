@@ -30,16 +30,13 @@ https://www.flashair-developers.com/en/documents/api/
 ```
   % sdls
   Directory: /
-  Low_Pressure_Shaft_Aft_Rev_A.gcode           10,887,796
-  Low_Pressure_Shaft_Connector_Rev_A.gcode        405,270
-  Low_Pressure_Shaft_Front_Rev_A.gcode          9,462,366
-  Nozzle_Cone.gcode                             9,946,598
-  Nozzle_No_Supports.gcode                     31,395,785
-  Stand.gcode                                  11,298,604
-  ---------------------------------------- --------------
-  Dir Total:                                   73,396,419
-  Unused:                                  31,920,488,448
-  Free:                                            99.77%
+  Binder_Spool_Clip_v1-0.gcode        410,730 401.10 KB
+  Shim.gcode                          313,291 305.95 KB
+  filament_clip.gcode                 702,319 685.86 KB
+  ---------------------------- -------------- ---------
+  Dir Total:                        1,426,340   1.36 MB
+  Used:                             1,638,400   1.56 MB  0.01%
+  Free:                        31,992,512,512  29.80 GB 99.99%
 ```
 
 * **sdput** - copy files from local storage to the card
