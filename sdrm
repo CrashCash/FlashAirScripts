@@ -31,6 +31,9 @@ args=parser.parse_args()
 address=args.address
 dir=args.directory
 
+for arg in args.files:
+    print(arg)
+
 if address == None:
     print('you must supply a network address for the card')
     exit(1)

@@ -13,11 +13,11 @@ def fmt(size):
     kb=size/1024
     mb=size/1048576
     gb=size/1073741824
-    s='{:,.3f} GB'.format(gb)
+    s='{:,.2f} GB'.format(gb)
     if gb < 1:
-        s='{:,.3f} MB'.format(mb)
+        s='{:,.2f} MB'.format(mb)
     if mb < 1:
-        s='{:,.3f} KB'.format(kb)
+        s='{:,.2f} KB'.format(kb)
     return s
 
 config_file=os.path.expanduser('~/.flashair')
@@ -111,7 +111,7 @@ pct_empty=(empty/total)*100.0
 # add totals
 output.append(('Dir Total:', '{:,}'.format(sum), fmt(sum)))
 output.append(('Used:', '{:,}'.format(used), fmt(used), '{:.2f}%'.format(pct_used)))
-output.append(('Unused:', '{:,}'.format(space), fmt(space), '{:.2f}%'.format(pct_empty)))
+output.append(('Free:', '{:,}'.format(space), fmt(space), '{:.2f}%'.format(pct_empty)))
 
 # print in neat columns
 width1=max(len(x[0]) for x in output)
