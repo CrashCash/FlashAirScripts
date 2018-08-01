@@ -27,6 +27,7 @@ parser=argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpForm
 parser.add_argument('files', nargs='+', help='files/directories to delete', default=None)
 parser.add_argument('-a', '--address', help='card network address', default=def_address)
 parser.add_argument('-d', '--directory', help='directory', default=def_directory)
+parser.add_argument('-i', '--interactive', help='prompt before every removal', default=False, action='store_true')
 args=parser.parse_args()
 address=args.address
 dir=args.directory
@@ -80,6 +81,13 @@ if dir:
 for file in files:
     fn, attrib=file
     if match(fn):
+        if args.interactive:
+            if attrib & 16:
+                choice=input("remove directory '"+fn+"'? ")
+            else:
+                choice=input("remove regular file '"+fn+"'? ")
+            if choice[0].lower() != 'y':
+                continue
         r=requests.get('http://'+address+'/upload.cgi?DEL=/'+dir+fn)
         if r.text != 'NG':
             print(fn, 'deleted')
