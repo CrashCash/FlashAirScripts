@@ -24,11 +24,9 @@ class card:
         self.args=self.parser.parse_args()
         self.address=self.args.address
         self.dir=self.args.directory
-        try:
-            self.sort=self.args.sort
-        except:
-            self.sort=self.def_sort
+        if 'sort' not in self.args.__dict__:
             self.args.sort=self.def_sort
+        self.sort=self.args.sort
 
         if self.address == None:
             print('you must supply a network address for the card')

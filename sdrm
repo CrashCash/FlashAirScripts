@@ -40,7 +40,7 @@ for file, size, attrib in card.files:
                 choice=input("remove regular file '"+file+"'? ")
             if choice[0].lower() != 'y':
                 continue
-        r=requests.get('http://'+card.address+'/upload.cgi?DEL=/'+card.dir+file)
+        r=requests.get('http://'+card.address+'/upload.cgi?DEL='+card.dir+file)
         if r.text != 'NG':
             print(file, 'deleted')
         else:

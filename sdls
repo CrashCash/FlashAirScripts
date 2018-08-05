@@ -32,7 +32,6 @@ if len(card.files) == 0:
 sum=0
 output=[]
 for file, size, attrib in card.files:
-    attrib=int(attrib)
     if attrib & 16:
         # this is a directory
         output.append((0, file, '<DIR>', ''))
