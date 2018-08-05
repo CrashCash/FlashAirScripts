@@ -13,11 +13,6 @@ SD card. This necessitated a lot of physical swapping and frustration with
 cheap USB card readers, and remembering to umount the card filesystem before
 pulling it out.
 
-I read
-https://www.prusaprinters.org/easy-wireless-printing-with-flashair-sd-cards/
-and it's an excellent starting point, but I'm a Linux guy, so I had to write
-some scripts to talk to it.
-
 It turns out that the webDAV support on this card is rather unreliable and
 Linux webDAV clients are poor as well, but it's very good at HTTP
 commands. These are documented at
