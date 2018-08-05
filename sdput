@@ -7,47 +7,21 @@ import sys
 import argparse
 import requests
 import configparser
+import flashair
 
-config_file=os.path.expanduser('~/.flashair')
-config=configparser.ConfigParser()
-config.read(config_file)
-def_address=config['DEFAULT'].get('address', None)
-def_directory=config['DEFAULT'].get('directory', '/')
-
-parser=argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-parser.add_argument('files', nargs='+', help='files to upload')
-parser.add_argument('-a', '--address', help='card network address', default=def_address)
-parser.add_argument('-d', '--directory', help='directory', default=def_directory)
-args=parser.parse_args()
-address=args.address
-dir=args.directory
-
-if address == None:
-    print('you must supply a network address for the card')
-    exit(1)
-
-# if values have changed, write them back as defaults
-if address != def_address or dir != def_directory:
-    config['DEFAULT']['address']=address
-    config['DEFAULT']['directory']=dir
-    with open(config_file, 'w') as f:
-        config.write(f)
-
-# no leading or trailing slashes in directory
-if dir and dir[0] == '/':
-    dir=dir[1:]
-if dir and dir[-1] == '/':
-    dir=dir[:-1]
+card=flashair.card()
+card.parser.add_argument('files', nargs='+', help='files to upload')
+card.setup()
 
 # keep the host from writing during upload
-requests.get('http://'+address+'/upload.cgi?WRITEPROTECT=ON')
+requests.get('http://'+card.address+'/upload.cgi?WRITEPROTECT=ON')
 
 # set upload directory
-requests.get('http://'+address+'/upload.cgi?UPDIR=/'+dir)
+requests.get('http://'+card.address+'/upload.cgi?UPDIR='+card.dir)
 
-for file in args.files:
+for file in card.args.files:
     print(file, end=' ', flush=True)
-    r=requests.post('http://'+address+'/upload.cgi',
+    r=requests.post('http://'+card.address+'/upload.cgi',
                         files={'file': (os.path.basename(file), open(file, 'rb'), 'application/octet-stream')})
     if '<h1>Success</h1>' in r.text:
         print('uploaded')
@@ -55,4 +29,4 @@ for file in args.files:
         print('failed')
 
 # re-enable disk
-requests.get('http://'+address+'/upload.cgi?WRITEPROTECT=OFF')
+requests.get('http://'+card.address+'/upload.cgi?WRITEPROTECT=OFF')

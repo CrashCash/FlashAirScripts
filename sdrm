@@ -8,91 +8,43 @@ import fnmatch
 import argparse
 import requests
 import configparser
+import flashair
 
 def match(s):
-    if s in args.files:
+    if s in card.args.files:
         return True
-    for arg in args.files:
+    for arg in card.args.files:
         if fnmatch.fnmatch(s, arg):
             return True
     return False
 
-config_file=os.path.expanduser('~/.flashair')
-config=configparser.ConfigParser()
-config.read(config_file)
-def_address=config['DEFAULT'].get('address', None)
-def_directory=config['DEFAULT'].get('directory', '/')
-
-parser=argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-parser.add_argument('files', nargs='+', help='files/directories to delete', default=None)
-parser.add_argument('-a', '--address', help='card network address', default=def_address)
-parser.add_argument('-d', '--directory', help='directory', default=def_directory)
-parser.add_argument('-i', '--interactive', help='prompt before every removal', default=False, action='store_true')
-args=parser.parse_args()
-address=args.address
-dir=args.directory
-
-if address == None:
-    print('you must supply a network address for the card')
-    exit(1)
-
-# if values have changed, write them back as defaults
-if address != def_address or dir != def_directory:
-    config['DEFAULT']['address']=address
-    config['DEFAULT']['directory']=dir
-    with open(config_file, 'w') as f:
-        config.write(f)
-
-# no leading or trailing slashes in directory
-if dir and dir[0] == '/':
-    dir=dir[1:]
-if dir and dir[-1] == '/':
-    dir=dir[:-1]
-
-# get files on card
-files=[]
-r=requests.get('http://'+address+'/command.cgi?op=100&DIR=/'+dir)
-if not r:
-    if r.status_code == 404:
-        print('no such directory:', dir)
-    else:
-        print('error', r.status_code)
-    sys.exit(1)
-
-for line in r.text.split()[1:]:
-    # this code has to handle commas in file name and directory name. in data that's comma-delimited
-    first, size, attrib, date, time=line.rsplit(',', 4)
-    if not dir:
-        file=first[1:]
-    else:
-        file=first[len(dir)+2:]
-    files.append((file, int(attrib)))
-
-if not files:
+card=flashair.card()
+card.parser.add_argument('files', nargs='+', help='files/directories to delete', default=None)
+card.parser.add_argument('-i', '--interactive', help='prompt before every removal', default=False, action='store_true')
+card.setup()
+card.get_files()
+if len(card.files) == 0:
     print('no files to delete in', dir)
     sys.exit(1)
 
 # keep the host from writing during changes
-requests.get('http://'+address+'/upload.cgi?WRITEPROTECT=ON')
+requests.get('http://'+card.address+'/upload.cgi?WRITEPROTECT=ON')
 
 # delete matching files
-if dir:
-    dir=dir+'/'
-for file in files:
-    fn, attrib=file
-    if match(fn):
-        if args.interactive:
+for file, size, attrib in card.files:
+    if match(file):
+        if card.args.interactive:
             if attrib & 16:
-                choice=input("remove directory '"+fn+"'? ")
+                choice=input("remove directory '"+file+"'? ")
             else:
-                choice=input("remove regular file '"+fn+"'? ")
+                choice=input("remove regular file '"+file+"'? ")
             if choice[0].lower() != 'y':
                 continue
-        r=requests.get('http://'+address+'/upload.cgi?DEL=/'+dir+fn)
+        r=requests.get('http://'+card.address+'/upload.cgi?DEL=/'+card.dir+file)
         if r.text != 'NG':
-            print(fn, 'deleted')
+            print(file, 'deleted')
         else:
-            print('unable to delete', fn)
+            print('unable to delete', file)
 
 # re-enable disk
-requests.get('http://'+address+'/upload.cgi?WRITEPROTECT=OFF')
+requests.get('http://'+card.address+'/upload.cgi?WRITEPROTECT=OFF')
