@@ -79,6 +79,7 @@ once, and it's remembered. This also means the current working directory
 ### Setting up the scripts
 
 Copy these scripts to /usr/local/bin and mark them executable (`chmod a+x sdls sdrm sdput`)
+
 Copy flashair.py to somewhere in sys.path, such as /usr/lib/python3/dist-packages
 
 Make sure Python 3.x and the requests package are installed through pip,
