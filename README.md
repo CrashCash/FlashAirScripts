@@ -73,7 +73,9 @@ once, and it's remembered. This also means the current working directory
 
 ### Setting up the scripts
 
-Copy these scripts to /usr/local/bin and mark them executable (`chmod a+x sdls sdrm sdput`)
+Copy these scripts to /usr/local/bin and mark them executable
+
+`chmod a+x sdls sdrm sdput`
 
 Copy flashair.py to somewhere in sys.path, such as /usr/lib/python3/dist-packages
 
@@ -103,3 +105,8 @@ Unmount the card and remove it from the reader. When you put it back in, it
 will use the new configuration, so it should appear on the network. You should
 see it on your router's list of attached devices. Try "sdls" to see if it
 communicates without errors.
+
+### Warning
+
+Do not upload the same filename that is currently being printed, even if the
+file itself is identical. The printer will crash.
