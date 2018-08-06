@@ -6,7 +6,8 @@ Toshiba FlashAir cards are SD cards that are accessible over wi-fi.
 (This SD card has a wireless access point plus a CPU running a web server on
 Linux. Isn't that amazing?)
 
-This has been tested on Debian Linux with a W-04 version card
+This has been tested on Debian Linux with a W-04 version card. Only W-03 and
+W-04 cards are compatible.
 
 I have a Prusa i3 MK3 3D printer that's great, but it prefers to print from an
 SD card. This necessitated a lot of physical swapping and frustration with
@@ -99,7 +100,9 @@ Copy my version of the file to this directory, and modify these values:
   network name. Note that APPNETWORKKEY becomes a row of asterisks after the
   first time the card connects successfully to the network.
 
-* Copy the values of **CID** and **VERSION** from your old "config" file
+* Copy the values of **CID** and **VERSION** from your old "config"
+  file. Don't screw these up, as you'll have to reinitialize your card with
+  the buggy and annoying Toshiba software.
 
 Unmount the card and remove it from the reader. When you put it back in, it
 will use the new configuration, so it should appear on the network. You should
