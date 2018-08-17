@@ -38,9 +38,6 @@ for file, size, attrib in card.files:
     else:
         # this is a file
         # comma-formatted number
-        kb=size/1024
-        mb=size/1048576
-        gb=size/1073741824
         output.append((size, file, '{:,}'.format(size), fmt(size)))
         sum+=size
 
