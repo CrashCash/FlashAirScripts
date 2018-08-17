@@ -58,8 +58,10 @@ class card:
                 print('error', r.status_code)
             sys.exit(1)
 
-        for line in r.text.split()[1:]:
+        for line in r.text.split("\r\n")[1:]:
             # this code has to handle commas in file name and directory name. in data that's comma-delimited
+            if not len(line.strip()):
+                continue
             first, size, attrib, date, time=line.rsplit(',', 4)
-            file=first[len(self.dir):]
+            file=first[len(self.dir):].strip(',')    # to strip the comma on higher levels
             self.files.append((file, int(size), int(attrib)))
