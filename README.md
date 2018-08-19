@@ -19,7 +19,7 @@ Linux webDAV clients are poor as well, but it's very good at HTTP
 commands. These are documented at
 https://www.flashair-developers.com/en/documents/api/
 
-### I wrote 3 scripts:
+### I wrote 4 scripts:
 
 * **sdls**  - list the contents of the card
 
@@ -55,9 +55,33 @@ https://www.flashair-developers.com/en/documents/api/
   directory - note that you have to quote the glob to prevent it from being
   expanded locally by the shell.
 
-  `sdput Nozzle_Cone.gcode LPT_Spool.gcode` deletes the two given files.
+  `sdrm Nozzle_Cone.gcode LPT_Spool.gcode` deletes the two given files.
 
-### All three scripts take optional arguments:
+* **sdtree** - display tree of files/directories from the card
+
+```
+├─ arm.gcode
+├─ body.gcode
+├─ dir1
+│  ├─ aaa
+│  ├─ bbb
+│  ├─ dir2
+│  │  ├─ dir3
+│  │  │  ├─ dir4
+│  │  │  │  └─ xxx
+│  │  │  ├─ file3
+│  │  │  └─ test
+│  │  ├─ dirxxx
+│  │  ├─ diryyy
+│  │  └─ file2
+│  └─ file1
+├─ head.gcode
+├─ leg-1.gcode
+├─ leg-2.gcode
+└─ robot.gcode
+```
+
+### The scripts take optional arguments:
 
 `-a ADDRESS, --address ADDRESS` specifies the address of the card on your
 network. You can either use the raw IP address, or you can usually assign a
@@ -76,7 +100,7 @@ once, and it's remembered. This also means the current working directory
 
 Copy these scripts to /usr/local/bin and mark them executable
 
-`chmod a+x sdls sdrm sdput`
+`chmod a+x sdls sdrm sdput sdtree`
 
 Copy flashair.py to somewhere in sys.path, such as /usr/lib/python3/dist-packages
 

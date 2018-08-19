@@ -1,4 +1,4 @@
-#! /usr/bin/python3
+#! /usr/bin/env python3
 # list files on Toshiba FlashAir SD card via wi-fi
 # see https://www.flashair-developers.com/en/documents/api/
 
@@ -21,6 +21,7 @@ def fmt(size):
     return s
 
 card=flashair.card()
+card.parser.add_argument('-d', '--directory', help='directory', default=card.def_directory)
 card.parser.add_argument('-s', '--sort', help='sort output lines (alpha, size, none)',
                          choices=['a', 's', 'n'], default=card.def_sort)
 card.setup()
@@ -37,10 +38,6 @@ for file, size, attrib in card.files:
         output.append((0, file, '<DIR>', ''))
     else:
         # this is a file
-        # comma-formatted number
-        kb=size/1024
-        mb=size/1048576
-        gb=size/1073741824
         output.append((size, file, '{:,}'.format(size), fmt(size)))
         sum+=size
 

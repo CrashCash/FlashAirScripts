@@ -1,4 +1,4 @@
-#! /usr/bin/python3
+#! /usr/bin/env python3
 # delete files from Toshiba FlashAir SD card via wi-fi
 # see https://www.flashair-developers.com/en/documents/api/
 
@@ -19,6 +19,7 @@ def match(s):
     return False
 
 card=flashair.card()
+card.parser.add_argument('-d', '--directory', help='directory', default=card.def_directory)
 card.parser.add_argument('files', nargs='+', help='files/directories to delete', default=None)
 card.parser.add_argument('-i', '--interactive', help='prompt before every removal', default=False, action='store_true')
 card.setup()

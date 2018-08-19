@@ -1,4 +1,4 @@
-#! /usr/bin/python3
+#! /usr/bin/env python3
 # put files on Toshiba FlashAir SD card via wi-fi
 # see https://www.flashair-developers.com/en/documents/api/
 
@@ -10,6 +10,7 @@ import configparser
 import flashair
 
 card=flashair.card()
+card.parser.add_argument('-d', '--directory', help='directory', default=card.def_directory)
 card.parser.add_argument('files', nargs='+', help='files to upload')
 card.setup()
 

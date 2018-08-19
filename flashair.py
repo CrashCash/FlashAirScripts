@@ -18,11 +18,12 @@ class card:
 
         self.parser=argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
         self.parser.add_argument('-a', '--address', help='card network address', default=self.def_address)
-        self.parser.add_argument('-d', '--directory', help='directory', default=self.def_directory)
 
     def setup(self):
         self.args=self.parser.parse_args()
         self.address=self.args.address
+        if 'directory' not in self.args.__dict__:
+            self.args.directory=self.def_directory
         self.dir=self.args.directory
         if 'sort' not in self.args.__dict__:
             self.args.sort=self.def_sort
@@ -58,8 +59,11 @@ class card:
                 print('error', r.status_code)
             sys.exit(1)
 
-        for line in r.text.split()[1:]:
+        i=len(self.dir)
+        if i > 1:
+            i+=1
+        for line in r.text.splitlines()[1:]:
             # this code has to handle commas in file name and directory name. in data that's comma-delimited
             first, size, attrib, date, time=line.rsplit(',', 4)
-            file=first[len(self.dir):]
+            file=first[i:]
             self.files.append((file, int(size), int(attrib)))
