@@ -5,6 +5,7 @@
 import os
 import sys
 import argparse
+import datetime
 import requests
 import configparser
 import flashair
@@ -22,6 +23,15 @@ requests.get('http://'+card.address+'/upload.cgi?UPDIR='+card.dir)
 
 for file in card.args.files:
     print(file, end=' ', flush=True)
+    # get modification time of file as unix timestamp in milliseconds
+    mtime=os.stat(file).st_mtime
+    # convert from unix timestamp to date
+    ts=datetime.datetime.fromtimestamp(mtime)
+    # convert from date to msdos date & time
+    d, t=card.date2ftime(ts)
+    # set timestamp of file
+    requests.get('http://'+card.address+'/upload.cgi?FTIME='+hex((d << 16)+t))
+    # upload actual file
     r=requests.post('http://'+card.address+'/upload.cgi',
                         files={'file': (os.path.basename(file), open(file, 'rb'), 'application/octet-stream')})
     if '<h1>Success</h1>' in r.text:

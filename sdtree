@@ -15,7 +15,7 @@ def tree(dir, pad):
     files=card.files
     files.sort(key=lambda x: x[0])
     ctr=len(files)
-    for file, size, attrib in files:
+    for file, size, attrib, date in files:
         ctr-=1
         if ctr:
             print(pad[2:]+'├─', file)

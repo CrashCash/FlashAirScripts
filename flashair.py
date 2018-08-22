@@ -4,6 +4,7 @@
 import os
 import sys
 import argparse
+import datetime
 import requests
 import configparser
 
@@ -66,4 +67,26 @@ class card:
             # this code has to handle commas in file name and directory name. in data that's comma-delimited
             first, size, attrib, date, time=line.rsplit(',', 4)
             file=first[i:]
-            self.files.append((file, int(size), int(attrib)))
+            self.files.append((file, int(size), int(attrib), self.ftime2date(date, time)))
+
+    # takes file date & file time
+    # returns datetime.datetime
+    def ftime2date(self, d, t):
+        d=int(d)
+        t=int(t)
+        year=(d >> 9)+1980
+        month=(d >> 5) & 0b1111
+        day=d & 0b11111
+        hour=t >> 11
+        minute=(t >> 5) & 0b111111
+        second=(t & 0b11111)*2
+        if month == 0:
+            month=1
+        if day == 0:
+            day=1
+        return datetime.datetime(year, month, day, hour, minute, second)
+
+    # takes datetime.datetime
+    # returns file date & file time
+    def date2ftime(self, dt):
+        return ((dt.year-1980) << 9)+(dt.month << 5)+dt.day, int((dt.hour << 11)+(dt.minute << 5)+dt.second/2)

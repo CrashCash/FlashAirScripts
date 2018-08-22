@@ -32,7 +32,7 @@ if len(card.files) == 0:
 requests.get('http://'+card.address+'/upload.cgi?WRITEPROTECT=ON')
 
 # delete matching files
-for file, size, attrib in card.files:
+for file, size, attrib, date in card.files:
     if match(file):
         if card.args.interactive:
             if attrib & 16:

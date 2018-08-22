@@ -5,6 +5,7 @@
 import os
 import sys
 import argparse
+import datetime
 import requests
 import configparser
 import flashair
@@ -22,8 +23,8 @@ def fmt(size):
 
 card=flashair.card()
 card.parser.add_argument('-d', '--directory', help='directory', default=card.def_directory)
-card.parser.add_argument('-s', '--sort', help='sort output lines (alpha, size, none)',
-                         choices=['a', 's', 'n'], default=card.def_sort)
+card.parser.add_argument('-s', '--sort', help='sort output lines (alpha, size, date, none)',
+                         choices=['a', 's', 'd', 'n'], default=card.def_sort)
 card.setup()
 card.get_files()
 if len(card.files) == 0:
@@ -32,20 +33,22 @@ if len(card.files) == 0:
 
 sum=0
 output=[]
-for file, size, attrib in card.files:
+for file, size, attrib, date in card.files:
     if attrib & 16:
         # this is a directory
-        output.append((0, file, '<DIR>', ''))
+        output.append((file, '<DIR>', '', str(date), size, date))
     else:
         # this is a file
-        output.append((size, file, '{:,}'.format(size), fmt(size)))
+        output.append((file, '{:,}'.format(size), fmt(size), str(date), size, date))
         sum+=size
 
 # sort
 if card.sort == 'a':
-    output.sort(key=lambda x: x[1])
-if card.sort == 's':
     output.sort(key=lambda x: x[0])
+if card.sort == 's':
+    output.sort(key=lambda x: x[4])
+if card.sort == 'd':
+    output.sort(key=lambda x: x[5])
 
 # grab remaining space
 r=requests.get('http://'+card.address+'/command.cgi?op=140')
@@ -60,24 +63,27 @@ pct_used=(used/total)*100.0
 pct_empty=(empty/total)*100.0
 
 # add totals
-output.append((0, 'Dir Total:', '{:,}'.format(sum), fmt(sum)))
-output.append((0, 'Used:', '{:,}'.format(used), fmt(used), '{:.2f}%'.format(pct_used)))
-output.append((0, 'Free:', '{:,}'.format(space), fmt(space), '{:.2f}%'.format(pct_empty)))
+output.append(('Dir Total:', '{:,}'.format(sum), fmt(sum)))
+output.append(('Used:', '{:,}'.format(used), fmt(used), '{:.2f}%'.format(pct_used)))
+output.append(('Free:', '{:,}'.format(space), fmt(space), '{:.2f}%'.format(pct_empty)))
 
-# print in neat columns
-width1=max(len(x[1]) for x in output)
-width2=max(len(x[2]) for x in output)
-width3=max(len(x[3]) for x in output)
-width4=max(len(x[4]) for x in output if len(x) > 4)
-output.insert(-3, (0, '-'*width1, '-'*width2, '-'*width3))
+# calculate column widths
+width1=max(len(x[0]) for x in output)
+width2=max(len(x[1]) for x in output)
+width3=max(len(x[2]) for x in output)
+
+# add dashed footer line
+output.insert(-3, ('-'*width1, '-'*width2, '-'*width3))
+
+# now print it all in neat columns
 print('Directory:', card.dir)
 for data in output:
-    if len(data) == 4:
-        print('{0:{1}} {2:>{3}} {4:>{5}}'.format(data[1], width1,
-                                                 data[2], width2,
-                                                 data[3], width3))
+    if len(data) == 3:
+        print('{0:{1}} {2:>{3}} {4:>{5}}'.format(data[0], width1,
+                                                 data[1], width2,
+                                                 data[2], width3))
     else:
-        print('{0:{1}} {2:>{3}} {4:>{5}} {6:>{7}}'.format(data[1], width1,
-                                                          data[2], width2,
-                                                          data[3], width3,
-                                                          data[4], width4))
+        print('{0:{1}} {2:>{3}} {4:>{5}} {6:>{7}}'.format(data[0], width1,
+                                                          data[1], width2,
+                                                          data[2], width3,
+                                                          data[3], 6))
