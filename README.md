@@ -26,9 +26,9 @@ https://www.flashair-developers.com/en/documents/api/
 ```
   % sdls
   Directory: /
-  Binder_Spool_Clip_v1-0.gcode        410,730 401.10 KB
-  Shim.gcode                          313,291 305.95 KB
-  filament_clip.gcode                 702,319 685.86 KB
+  Binder_Spool_Clip_v1-0.gcode        410,730 401.10 KB 2018-08-02 13:34:20
+  Shim.gcode                          313,291 305.95 KB 2018-08-25 05:11:28
+  filament_clip.gcode                 702,319 685.86 KB 2018-08-25 05:12:16
   ---------------------------- -------------- ---------
   Dir Total:                        1,426,340   1.36 MB
   Used:                             1,638,400   1.56 MB  0.01%
