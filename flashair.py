@@ -59,7 +59,8 @@ class card:
             else:
                 print('error', r.status_code)
             sys.exit(1)
-
+        # determined by experimentation
+        r.encoding='utf-8'
         i=len(self.dir)
         if i > 1:
             i+=1
