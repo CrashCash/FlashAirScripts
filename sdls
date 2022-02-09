@@ -76,7 +76,7 @@ width3=max(len(x[2]) for x in output)
 output.insert(-3, ('-'*width1, '-'*width2, '-'*width3))
 
 # now print it all in neat columns
-print('Directory:', card.dir)
+print(card.address, 'directory:', card.dir)
 for data in output:
     if len(data) == 3:
         print('{0:{1}} {2:>{3}} {4:>{5}}'.format(data[0], width1,

@@ -32,6 +32,8 @@ if len(card.files) == 0:
 requests.get('http://'+card.address+'/upload.cgi?WRITEPROTECT=ON')
 
 # delete matching files
+if card.dir[-1] != '/':
+    card.dir+='/'
 for file, size, attrib, date in card.files:
     if match(file):
         if card.args.interactive:
