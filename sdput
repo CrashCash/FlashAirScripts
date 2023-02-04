@@ -30,7 +30,8 @@ for file in card.args.files:
     # convert from date to msdos date & time
     d, t=card.date2ftime(ts)
     # set timestamp of file
-    requests.get('http://'+card.address+'/upload.cgi?FTIME='+hex((d << 16)+t))
+    bytes=hex((d << 16)+t)
+    requests.get('http://'+card.address+'/upload.cgi?FTIME='+bytes)
     # upload actual file
     r=requests.post('http://'+card.address+'/upload.cgi',
                         files={'file': (os.path.basename(file), open(file, 'rb'), 'application/octet-stream')})

@@ -44,7 +44,8 @@ for file, size, attrib, date in card.files:
 
 # sort
 if card.sort == 'a':
-    output.sort(key=lambda x: x[0])
+    # ignore case, like the printer
+    output.sort(key=lambda x: x[0].lower())
 if card.sort == 's':
     output.sort(key=lambda x: x[4])
 if card.sort == 'd':
