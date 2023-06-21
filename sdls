@@ -6,9 +6,10 @@ import os
 import sys
 import argparse
 import datetime
-import requests
 import configparser
+
 import flashair
+import httpx
 
 def fmt(size):
     kb=size/1024
@@ -52,7 +53,7 @@ if card.sort == 'd':
     output.sort(key=lambda x: x[5])
 
 # grab remaining space
-r=requests.get('http://'+card.address+'/command.cgi?op=140')
+r=httpx.get('http://'+card.address+'/command.cgi?op=140')
 t=r.text.split('/')
 empty=int(t[0])
 total, sector=map(int, t[1].split(','))

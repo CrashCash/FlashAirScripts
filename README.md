@@ -104,9 +104,10 @@ Copy these scripts to /usr/local/bin and mark them executable
 
 Copy flashair.py to somewhere in sys.path, such as /usr/lib/python3/dist-packages
 
-Make sure Python 3.x and the requests package are installed through pip,
-pipenv, apt-get, rpm or whatever. See
-http://docs.python-requests.org/en/master/
+Install Python 3.x
+Install the httpx package (https://www.python-httpx.org)
+Install the tqdm package (https://tqdm.github.io)
+You can install packages using whatever package manager you use (e.g. pip, apt get, etc)
 
 ### Setting up the card
 
@@ -135,5 +136,5 @@ communicates without errors.
 
 ### Warning
 
-Do not upload the same filename that is currently being printed, even if the
-file itself is identical. The printer will crash.
+Do not upload a file during a print, as that locks out the printer during the
+upload, so it can't read the gcode and it will crash.

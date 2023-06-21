@@ -6,23 +6,26 @@ import os
 import sys
 import argparse
 import datetime
-import requests
 import configparser
+
 import flashair
+import httpx
+from tqdm import tqdm
+from tqdm.utils import CallbackIOWrapper
 
 card=flashair.card()
 card.parser.add_argument('-d', '--directory', help='directory', default=card.def_directory)
+card.parser.add_argument('-p', '--progress', help='hide progress bar', default=True, action='store_false')
 card.parser.add_argument('files', nargs='+', help='files to upload')
 card.setup()
 
 # keep the host from writing during upload
-requests.get('http://'+card.address+'/upload.cgi?WRITEPROTECT=ON')
+httpx.get('http://'+card.address+'/upload.cgi?WRITEPROTECT=ON')
 
 # set upload directory
-requests.get('http://'+card.address+'/upload.cgi?UPDIR='+card.dir)
+httpx.get('http://'+card.address+'/upload.cgi?UPDIR='+card.dir)
 
 for file in card.args.files:
-    print(file, end=' ', flush=True)
     # get modification time of file as unix timestamp in milliseconds
     mtime=os.stat(file).st_mtime
     # convert from unix timestamp to date
@@ -31,14 +34,19 @@ for file in card.args.files:
     d, t=card.date2ftime(ts)
     # set timestamp of file
     bytes=hex((d << 16)+t)
-    requests.get('http://'+card.address+'/upload.cgi?FTIME='+bytes)
-    # upload actual file
-    r=requests.post('http://'+card.address+'/upload.cgi',
-                        files={'file': (os.path.basename(file), open(file, 'rb'), 'application/octet-stream')})
-    if '<h1>Success</h1>' in r.text:
-        print('uploaded')
+    httpx.get('http://'+card.address+'/upload.cgi?FTIME='+bytes)
+    if card.args.progress:
+        # upload file with progress bar
+        progress=tqdm(desc=file, total=os.stat(file).st_size, unit="B", unit_scale=True, unit_divisor=1024)
+        wrapped_file=CallbackIOWrapper(progress.update, open(file, 'rb'), "read")
+        r=httpx.post('http://'+card.address+'/upload.cgi',
+                     files={'file': (os.path.basename(file), wrapped_file, 'application/octet-stream')})
     else:
-        print('failed')
+        # upload file
+        r=httpx.post('http://'+card.address+'/upload.cgi',
+                     files={'file': (os.path.basename(file), open(file, 'rb'), 'application/octet-stream')})
+    if not '<h1>Success</h1>' in r.text:
+        print(file, 'failed')
 
 # re-enable disk
-requests.get('http://'+card.address+'/upload.cgi?WRITEPROTECT=OFF')
+httpx.get('http://'+card.address+'/upload.cgi?WRITEPROTECT=OFF')
