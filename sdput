@@ -37,10 +37,11 @@ for file in card.args.files:
     httpx.get('http://'+card.address+'/upload.cgi?FTIME='+bytes)
     if card.args.progress:
         # upload file with progress bar
-        progress=tqdm(desc=file, total=os.stat(file).st_size, unit="B", unit_scale=True, unit_divisor=1024)
-        wrapped_file=CallbackIOWrapper(progress.update, open(file, 'rb'), "read")
-        r=httpx.post('http://'+card.address+'/upload.cgi',
-                     files={'file': (os.path.basename(file), wrapped_file, 'application/octet-stream')})
+        with open(file, "rb") as data:
+             with tqdm(desc=file, total=os.stat(file).st_size, unit="B", unit_scale=True, unit_divisor=1024) as progress:
+                 wrapped_file=CallbackIOWrapper(progress.update, data, "read")
+                 r=httpx.post('http://'+card.address+'/upload.cgi',
+                              files={'file': (os.path.basename(file), wrapped_file, 'application/octet-stream')})
     else:
         # upload file
         r=httpx.post('http://'+card.address+'/upload.cgi',
